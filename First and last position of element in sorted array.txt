@@ -1,0 +1,82 @@
+public class Solution {
+    public int[] SearchRange(int[] nums, int target) 
+    {
+        var ans = new int[2]{-1,-1};
+        if(nums.Length == 0)
+        {
+            return ans;
+        }
+        if(nums.Length == 1 && nums[0] == target)
+        {
+            ans[0] = 0;
+            ans[1] = 0;
+            return ans;
+        }
+        
+        ans[0] = FindFirstPosition(nums, target);
+        ans[1] = FindLastPosition(nums, target);
+            
+        return ans;
+    }
+    
+    public int FindFirstPosition(int[] nums, int target)
+    {
+        var start = 0;
+        var end = nums.Length-1;
+        var res = -1;
+        
+        while(start <= end)
+        {
+            var mid = (start+end)/2;
+            
+            if(target == nums[mid])
+            {
+                res = mid;
+                end = mid-1;
+            }
+            else
+            {
+                if(target > nums[mid])
+                {
+                    start = mid+1;
+                }
+                else
+                {
+                    end = mid-1;
+                }
+            }
+        }
+        return res;
+        
+    }
+    
+    public int FindLastPosition(int[] nums, int target)
+    {
+        var start = 0;
+        var end = nums.Length-1;
+        var res = -1;
+        
+        while(start <= end)
+        {
+            var mid = (start+end)/2;
+            
+            if(target == nums[mid])
+            {
+                res = mid;
+                start = mid+1;
+            }
+            else
+            {
+                if(target > nums[mid])
+                {
+                    start = mid+1;
+                }
+                else
+                {
+                    end = mid-1;
+                }
+            }
+        }
+        return res;
+    }
+}
