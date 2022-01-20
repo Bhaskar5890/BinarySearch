@@ -1,0 +1,31 @@
+public class Solution {
+    public int SearchInsert(int[] nums, int target) 
+    {
+        int resIndex = Int32.MaxValue;
+        var start = 0;
+        var end = nums.Length-1;
+        
+        while(start <= end)
+        {
+            var mid = (start + end) / 2;
+            if(nums[mid] == target)
+            {
+                return mid; 
+            }
+            else
+            {
+                if(nums[mid] > target)
+                {
+                    end = mid - 1;
+                }
+                else
+                {
+                    resIndex = mid;
+                    start = mid + 1;
+                }
+            }
+        }
+        
+        return (resIndex == Int32.MaxValue) ? 0 : resIndex + 1;
+    }
+}
