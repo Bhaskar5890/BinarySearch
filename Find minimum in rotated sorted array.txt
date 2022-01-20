@@ -1,0 +1,47 @@
+public class Solution {
+    public int FindMin(int[] nums) 
+    {
+        if(nums.Length == 0)
+        {
+            return -1;
+        }
+        if(nums.Length == 1 || nums[0] <= nums[nums.Length-1])
+        {
+            return nums[0];
+        }
+        var length = nums.Length;
+        var start = 0;
+        var first = start;
+        var end = nums.Length -1;
+        var last = end;
+        
+        while(start <= end)
+        {
+            //Calculating mid
+            var mid = (start + end ) / 2;
+            
+            //Calculate previous and next elements
+            var prev = (mid + (length-1)) % length;
+            var next = (mid + 1) % length;
+            
+            if(nums[mid] <= nums[prev] && nums[mid] <= nums[next])
+            {
+                return nums[mid];
+            }
+            else
+            {
+                //Find unsorted array as min element is present in unsorted side only
+                if(nums[first] <= nums[mid])
+                {
+                    start = mid + 1;
+                }
+                else if(nums[mid] <= nums[last])
+                {
+                    end = mid - 1;
+                }
+            }
+        }
+        
+        return nums[0];
+    }
+}
