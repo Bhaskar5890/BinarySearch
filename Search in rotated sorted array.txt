@@ -1,0 +1,86 @@
+public class Solution {
+    public int Search(int[] nums, int target) 
+    {
+        if(nums.Length == 0)
+        {
+            return -1;
+        }
+        if(nums.Length == 1 && nums[0] == target)
+        {
+            return 0;
+        }
+        
+        //Find minimum element index;
+        var minIndex = FindMinIndex(nums);
+        var start = 0;
+        var end = nums.Length-1;
+        //Call binary search in 2 halves
+        var firstHalf = BinarySearch(nums, start, minIndex-1, target);
+        var secondHalf = BinarySearch(nums, minIndex, end, target);
+        
+        return firstHalf != -1 ? firstHalf : (secondHalf != -1 ? secondHalf : -1);
+    }
+    
+    public int FindMinIndex(int[] nums) 
+    {
+        var length = nums.Length;
+        var start = 0;
+        var first = start;
+        var end = nums.Length -1;
+        var last = end;
+        
+        while(start <= end)
+        {
+            //Calculating mid
+            var mid = (start + end ) / 2;
+            
+            //Calculate previous and next elements
+            var prev = (mid + (length-1)) % length;
+            var next = (mid + 1) % length;
+            
+            if(nums[mid] <= nums[prev] && nums[mid] <= nums[next])
+            {
+                return mid;
+            }
+            else
+            {
+                //Find unsorted array as min element is present in unsorted side only
+                if(nums[first] <= nums[mid])
+                {
+                    start = mid + 1;
+                }
+                else if(nums[mid] <= nums[last])
+                {
+                    end = mid - 1;
+                }
+            }
+        }
+        
+        return 0;
+    }
+    
+    public int BinarySearch(int[] nums, int start, int end, int target)
+    {
+        while(start <= end)
+        {
+            var mid = (start + end)/ 2;
+            
+            if(nums[mid] == target)
+            {
+                return mid;
+            }
+            else
+            {
+                if(nums[mid] > target)
+                {
+                    end = mid-1;
+                }
+                else
+                {
+                    start = mid+1;
+                }
+            }
+        }
+        return -1;
+    }
+}
