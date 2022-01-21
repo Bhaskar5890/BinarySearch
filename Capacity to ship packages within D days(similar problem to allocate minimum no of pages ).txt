@@ -1,0 +1,59 @@
+public class Solution {
+    public int ShipWithinDays(int[] weights, int days) 
+    {
+        var sum = 0;
+        int maxWeight = Int32.MinValue;;
+        for(int i = 0; i < weights.Length; i++)
+        {
+            maxWeight = Math.Max(maxWeight, weights[i]);
+            sum += weights[i];
+        }
+        
+        var start = maxWeight;
+        var end = sum;
+        var res = -1;
+        while(start <= end)
+        {
+            var mid = (start + end) / 2;
+            var isValid = IsValid(weights, days, mid, weights.Length);
+            if(isValid)
+            {
+                res = mid;
+                end = mid - 1;
+            }
+            else
+            {
+                start = mid + 1;
+            }
+        }
+        
+        return res;
+    }
+    
+    public bool IsValid(int[] weights, int days, int mid, int n)
+    {
+        var sum = 0;
+        int countDays = 1;
+        
+        for(int i = 0; i < weights.Length; i++)
+        {
+            if(weights[i] > mid)
+            {
+                return false;
+            }
+            sum += weights[i];
+            if(sum > mid)
+            {
+                sum = weights[i];
+                countDays++;
+            }
+            
+            if(countDays > days)
+            {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+}
