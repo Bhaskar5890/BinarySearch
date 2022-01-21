@@ -1,0 +1,45 @@
+public class Solution {
+    public int MinEatingSpeed(int[] piles, int h) 
+    {
+        var start = 1;
+        var end = Int32.MinValue;
+        var res = -1;
+        for(int i = 0; i < piles.Length; i++)
+        {
+            end = Math.Max(end, piles[i]);
+        }
+        
+        while(start <= end)
+        {
+            var mid = (start + end) / 2;
+            
+            if(IsValid(piles, mid, h))
+            {
+                res = mid;
+                end = mid - 1;
+            }
+            else
+            {
+                start = mid + 1;
+            }
+        }
+        
+        return res;
+    }
+    
+    public bool IsValid(int[] piles, int mid, int h)
+    {
+        var hours = 0;
+        for(int i = 0; i < piles.Length; i++)
+        {
+            var value = (double)piles[i] / (double)mid;
+            hours += (int)Math.Ceiling(value);
+            if(hours > h)
+            {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+}
